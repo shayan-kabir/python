@@ -51,7 +51,7 @@ enter_arr.place(x=200,y=200)
 
 enter_arr.place_forget()
 
-enter_item = Label(root, text = "Enter Search item",font =60)
+enter_item = Label(root, text = "Enter Search Item",font =60)
 enter_item.place(x=185,y=300)
 
 enter_item.place_forget()
