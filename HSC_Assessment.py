@@ -10,8 +10,12 @@ global txt
 interval = 0
 resultText =StringVar
 
+
+#Switching Buttons based on the radiobuttons choice (Search)
+
+
 def switch_to_binary():
-    print("hello")
+    
     SEARCH_linear.place_forget()
     SEARCH_binary.place(x=200,y=400)
 
@@ -19,11 +23,33 @@ def switch_to_linear():
     SEARCH_binary.place_forget()
     SEARCH_linear.place(x=200,y=400)
 
+#Switching Buttons based on the radiobuttons choice (Sort)
 
+
+def switch_to_selection():
+    SORT_selection.place(x=200, y=450)
+    SORT_insertion.place_forget()
+    SORT_bubble.place_forget()
+
+
+
+def switch_to_bubble():
+    
+    SORT_selection.place_forget()
+    SORT_insertion.place_forget()
+    SORT_bubble.place(x=200, y=450)
+
+
+def switch_to_insertion():
+    SORT_selection.place_forget()
+    SORT_bubble.place_forget()
+    SORT_insertion.place(x=200, y=450)
     
 
+
+
 #Radiobuttons (Search)
-r= IntVar()
+r = IntVar()
 r.set("1")
 Radiobutton1 = Radiobutton(root, text ="Linear", variable = r, value =int(1), font =20, comman = switch_to_linear)
 Radiobutton1.place(x=100,y=100)
@@ -38,28 +64,28 @@ Radiobutton2.place(x=600,y=100)
 Radiobutton2.place_forget()
 
 #Radiobuttons (Sort)
-V = IntVar()
-V.set("1")
+v = IntVar()
+v.set("1")
 
-Radiobutton3 = Radiobutton(root, text ="Selection", variable = r, value =1, font =20)
+Radiobutton3 = Radiobutton(root, text ="Selection", variable = v, value =int(1), font =20, command = switch_to_selection )
 
 Radiobutton3.place_forget()
 
-Radiobutton4 = Radiobutton(root, text ="Bubble", variable = r, value =2, font =20)
+Radiobutton4 = Radiobutton(root, text ="Bubble", variable = v, value =int(2), font =20, command =switch_to_bubble)
 
 Radiobutton4.place_forget()
 
-Radiobutton5 = Radiobutton(root, text ="Insertion", variable = r, value =3, font =20)
+Radiobutton5 = Radiobutton(root, text ="Insertion", variable = v, value =int(3), font =20, command = switch_to_insertion)
 Radiobutton5.place(x=500,y=100)
 
 Radiobutton5.place_forget()
 
 
-Ascending =  Radiobutton(root, text ="Ascending", variable = V, value =1, font =20)
+Ascending =  Radiobutton(root, text ="Ascending", variable = v, value =1, font =20)
 Ascending.place(x=197,y=280)
 Ascending.place_forget()
 
-Descending =  Radiobutton(root, text ="Descending", variable = V, value =2, font =20)
+Descending =  Radiobutton(root, text ="Descending", variable = v, value =2, font =20)
 Descending.place(x=197,y=330)
 Descending.place_forget()
 
@@ -182,7 +208,7 @@ def click_sort():
     if interval ==1:
         result_label_sort.place_forget()
         enter_arr.place_forget()
-        SORT.place_forget()
+        SORT_selection.place_forget()
         sorted_arr.place_forget()
         Sort.place(x=130,y=350)
         Enter_arr_sort.place_forget()
@@ -198,9 +224,11 @@ def click_sort():
         Menu2.place_forget()
         interval = 0
         result_label.place_forget()
+        result_label_sort.config(text="")
     elif interval == 0:
+        v.set("1")
         enter_arr.place(x=100,y=200)
-        SORT.place(x=200, y=450)
+        SORT_selection.place(x=200, y=450)
         sorted_arr.place(x=200, y=400)
         option.place_forget()
         Sort.place_forget()
@@ -216,6 +244,8 @@ def click_sort():
         sort_label.place(x=0,y=0)
         interval = 1
 
+
+# Search functionalities 
 
 def linear_search():
     if r.get()==1:
@@ -276,6 +306,8 @@ def binary_search():
     result_label.config(text="Search item not found")  
    
         
+# Sort functionalities
+
 
 def selection():
     input_text = Enter_arr_sort.get()
@@ -306,13 +338,60 @@ def selection():
      
 
 
+
+def bubble():
+    input_text = Enter_arr_sort.get()
+    numbers = input_text.split()
+
+    try:
+        numbers = [int(num) for num in numbers]  # Convert the numbers from strings to integers
+        length = len(numbers)
+        
+        if len(numbers) == 0: # Error checking for if users do not input a value
+            result_label_sort.config(text="No numbers entered")
+            result_label_sort.place(x=400, y=410) 
+            return
+        
+        for i in range(length):
+            Swapped = False
+            for j in range(length-1):
+                if numbers[j] > numbers[j+1]:
+                    Temp = numbers[j]
+                    numbers[j] = numbers[j+1]
+                    numbers[j+1] = Temp
+                    Swapped = True
+                    if Swapped == False: 
+                        Break
+
+        print(numbers)
+        result_label_sort.config(text=f"Sorted Array is: {numbers}")
+        result_label_sort.place(x=400, y=410)
+    except ValueError:  # Error check for non numeric entries 
+        result_label_sort.config(text="Invalid input (non-numeric value entered)")
+        result_label_sort.place(x=400, y=410)
+
+
+
+    
+            
+
+
+
+
+
+
+
+
+
+
+
 result_label_sort = Label(root, bg="#21243B", fg="white", font=10)
 
 
 
 
 
-#Search or Sort option
+# Search or Sort option (Main Menu)
 
 Sort = Button(root, text='Sort', fg='black', bg='#e6e6e6', font=('Times', 20), width=15,command = click_sort)
 Sort.place(x=130,y=350)
@@ -320,7 +399,7 @@ Sort.place(x=130,y=350)
 Search = Button(root, text='Search', fg='black', bg='#e6e6e6', font=('Times', 20),command = click_search, width=15)
 Search.place(x=400,y=350)
 
-#Different Menu for disparate options
+# Different Menu for disparate options
 
 Menu = Button(root, text = "Menu", command = click_search, font =40 )
 Menu.place_forget()
@@ -328,7 +407,7 @@ Menu.place_forget()
 Menu2 = Button(root, text = "Menu", command = click_sort, font =40)
 Menu2.place_forget()
 
-#Buttons requiring commands 
+# Buttons requiring commands (Search)
 
 SEARCH_linear = Button(root, text= "Search with linear", fg='black', bg='blanched almond', font = ('Aerial',15), command = linear_search)
 SEARCH_linear.place(x=200, y=450)
@@ -338,13 +417,17 @@ SEARCH_binary = Button(root, text= "Search with binary", fg='black', bg='blanche
 SEARCH_binary.place(x=200,y=450)
 SEARCH_binary.place_forget()
 
-#SEARCH_sort= Button(root, text= "Search (Sort) ", fg='black', bg='blanched almond', font = ('Aerial',15), command = binary_search)
-#SEARCH.place(x=200, y=450)
+# Buttons requiring commands (Sort)
 
 
-SORT = Button(root, text= "Sort with selection ", fg='black', bg='blanched almond', font = ('Aerial',15), command = selection)
-SORT.place(x=200, y=450)
-SORT.place_forget()
+SORT_selection = Button(root, text= "Sort with Selection ", fg='black', bg='blanched almond', font = ('Aerial',15), command = selection)
+SORT_selection.place_forget()
+
+SORT_bubble =  Button(root, text= "Sort with Bubble ", fg='black', bg='blanched almond', font = ('Aerial',15), command = bubble)
+SORT_bubble.place_forget()
+
+SORT_insertion =  Button(root, text= "Sort with Insertion ", fg='black', bg='blanched almond', font = ('Aerial',15), command = selection)
+SORT_insertion.place_forget()
 
 
 result_label = Label(root,bg="#21243B",fg = "white", font =10)
