@@ -6,6 +6,7 @@ root.title("Search And Sort") # The name of the GUI
 root.geometry("800x700") # The size of the GUI
 root.configure(bg="#21243B") # Background colour of the GUI
 global interval
+global variable 
 global txt
 interval = 0
 resultText =StringVar
@@ -166,7 +167,11 @@ order_selection.place_forget()
 
 def click_search():
     global interval
+    global variable
+    variable = 1
+    print(variable)
     if interval ==1:
+        #pressing menu 
         SEARCH_linear.place_forget()
         SEARCH_binary.place_forget()
         search.place_forget()
@@ -186,8 +191,12 @@ def click_search():
         Enter_arr_search.delete(0,100)
         result_label.config(text="")
         clear_search.place_forget()
+        search_info.place_forget()
+        MainInfo.place(x=725, y =625)
+        SearchInfo.place_forget()
         interval = 0
     elif interval == 0:
+        #pressing Search
         r.set("1")
         Enter_searchitem.get()==""    # ?
         SEARCH_linear.place(x=200, y=400)
@@ -205,12 +214,21 @@ def click_search():
         Menu.place(x=20, y=640)
         result_label.place(x=500, y=450)
         clear_search.place(x=722, y=500)
+        SearchInfo.place(x=625,y=625)
+        MainInfo.place_forget()
+        search_info.place_forget()
+        main_info.place_forget()
+        SearchInfo.place(x=625,y=625)
         interval = 1
 
 
 def click_sort():
     global interval
+    global variable
+    variable = 1
+    print(variable)
     if interval ==1:
+        #pressing menu
         Enter_arr_sort.delete(0,100)
         result_label_sort.place_forget()
         enter_arr.place_forget()
@@ -232,9 +250,15 @@ def click_sort():
         result_label_sort.config(text="")
         SORT_bubble.place_forget()
         SORT_insertion.place_forget()
-        interval = 0
         clear_sort.place_forget()
+        SortInfo.place_forget()
+        MainInfo.place(x=725, y =625)
+        sort_info.place_forget()
+        search_info.place_forget()
+        interval = 0
+        
     elif interval == 0:
+        #pressing sort
         Enter_arr_sort.get()==""
         v.set("1")
         enter_arr.place(x=100,y=200)
@@ -253,6 +277,9 @@ def click_sort():
         Menu2.place(x=20, y=640)
         sort_label.place(x=0,y=0)
         clear_sort.place(x=722, y=500)
+        SortInfo.place(x=655,y=625)
+        MainInfo.place_forget()
+        main_info.place_forget()
         interval = 1
 
 
@@ -263,11 +290,30 @@ def linear_search():
         input_text = Enter_arr_search.get()
         numbers = input_text.split()  # Split the input text using space as the delimiter
 
+        input_text2 = Enter_searchitem.get()
+        numbers2 = input_text2.split()
+
+        
+        #search_item = int(Enter_searchitem.get())
+
+
+
+        if len(numbers) == 0 or len(numbers2) == 0: # Error checking for if users do not input a value
+                result_label_sort.config(text="No numbers entered")
+                result_label_sort.place(x=400, y=410) 
+                return
+
+
         try:
     
             numbers = [int(num) for num in numbers]  # Convert the numbers from strings to integers
         
             search_item = int(Enter_searchitem.get())  # Get the search item as an integer
+
+            
+
+
+
         
             index = -1  #if the search item is not found after iterating through the entire array, the value of index remains as -1.
             for i, num in enumerate(numbers):  #enumerate retrieves both the value and the index whilst iterating the list 
@@ -494,33 +540,34 @@ Menu2.place_forget()
 
 # Buttons requiring commands (Search)
 
-SEARCH_linear = Button(root, text= "Search with linear", fg='black', bg='blanched almond', font = ('Aerial',15), command = linear_search)
+SEARCH_linear = Button(root, text= "Search with linear", fg='black', bg='Orange', font = ('Aerial',15), command = linear_search)
 SEARCH_linear.place(x=200, y=450)
 SEARCH_linear.place_forget()
 
-SEARCH_binary = Button(root, text= "Search with binary", fg='black', bg='blanched almond', font = ('Aerial',15), command = binary_search)
+SEARCH_binary = Button(root, text= "Search with binary", fg='black', bg='Orange', font = ('Aerial',15), command = binary_search)
 SEARCH_binary.place(x=200,y=450)
 SEARCH_binary.place_forget()
 
 # Buttons requiring commands (Sort)
 
 
-SORT_selection = Button(root, text= "Sort with Selection ", fg='black', bg='blanched almond', font = ('Aerial',15), command = selection)
+SORT_selection = Button(root, text= "Sort with Selection ", fg='black', bg='Orange', font = ('Aerial',15), command = selection)
 SORT_selection.place_forget()
 
-SORT_bubble =  Button(root, text= "Sort with Bubble ", fg='black', bg='blanched almond', font = ('Aerial',15), command = bubble)
+SORT_bubble =  Button(root, text= "Sort with Bubble ", fg='black', bg='Orange', font = ('Aerial',15), command = bubble)
 SORT_bubble.place_forget()
 
-SORT_insertion =  Button(root, text= "Sort with Insertion ", fg='black', bg='blanched almond', font = ('Aerial',15), command = insertion)
+SORT_insertion =  Button(root, text= "Sort with Insertion ", fg='black', bg='Orange', font = ('Aerial',15), command = insertion)
 SORT_insertion.place_forget()
 
+# Search result Label
 
 result_label = Label(root,bg="#21243B",fg = "white", font =10)
 result_label.place(x=500, y=510)
 result_label.place_forget()
 
 
-info = Button(root, text='info',fg='black', bg='blanched almond', font = ('Aerial',20)).place(x=725,y=625)
+
 
 
 # Clear buttons
@@ -536,12 +583,60 @@ clear_sort.place_forget()
 
 
 
-# info buttons
+# info labels and its corresponding buttons with functions
+
+variable = 1
+def infoMain():
+    global variable
+    if variable == 1:
+        main_info.place(x=150, y = 600)
+        variable =0
+    elif variable == 0:
+        main_info.place_forget()
+        variable = 1
+
+def infoSearch():
+    global variable
+    if variable == 1:
+        search_info.place(x=150, y = 600)
+        variable =0
+    elif variable == 0:
+        search_info.place_forget()
+        variable = 1
+
+def infoSort():
+    global variable
+    if variable == 1:
+        sort_info.place(x=150, y = 600)
+        variable =0
+    elif variable == 0:
+        sort_info.place_forget()
+        variable = 1
+    
 
 main_info = Label(root, text = "This is a search and sort application. \n Please select either search and select to use the feature", font = 5)
 main_info.place(x=150, y = 600)
+main_info.place_forget()
+
+MainInfo = Button(root, text='info',fg='black', bg='blanched almond', font = ('Aerial',20), command = infoMain)
+MainInfo.place(x=725,y=625)
 
 
+
+SearchInfo = Button(root, text='Search info',fg='black', bg='blanched almond', font = ('Aerial',20), command = infoSearch)
+SearchInfo.place(x=625,y=625)
+SearchInfo.place_forget()
+
+search_info = Label(root, text = "This is a search stuff", font = 5)
+
+
+
+
+SortInfo = Button(root, text='Sort info',fg='black', bg='blanched almond', font = ('Aerial',20), command = infoSort)
+SortInfo.place(x=625,y=625)
+SortInfo.place_forget()
+
+sort_info = Label(root, text = "This is a Sort stuff", font = 5)
 
 
 
