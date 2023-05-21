@@ -3,7 +3,7 @@ import math
 global root
 root = Tk() # Creating an instance
 root.title("Search And Sort") # The name of the GUI
-root.geometry("800x600") # The size of the GUI
+root.geometry("800x700") # The size of the GUI
 root.configure(bg="#21243B") # Background colour of the GUI
 global interval
 global txt
@@ -67,6 +67,9 @@ Radiobutton2.place_forget()
 v = IntVar()
 v.set("1")
 
+h = IntVar()
+h.set("1")
+
 Radiobutton3 = Radiobutton(root, text ="Selection", variable = v, value =int(1), font =20, command = switch_to_selection )
 
 Radiobutton3.place_forget()
@@ -81,11 +84,11 @@ Radiobutton5.place(x=500,y=100)
 Radiobutton5.place_forget()
 
 
-Ascending =  Radiobutton(root, text ="Ascending", variable = v, value =1, font =20)
+Ascending =  Radiobutton(root, text ="Ascending", variable = h, value =1, font =20)
 Ascending.place(x=197,y=280)
 Ascending.place_forget()
 
-Descending =  Radiobutton(root, text ="Descending", variable = v, value =2, font =20)
+Descending =  Radiobutton(root, text ="Descending", variable = h, value =2, font =20)
 Descending.place(x=197,y=330)
 Descending.place_forget()
 
@@ -182,10 +185,11 @@ def click_search():
         Enter_searchitem.delete(0,100)
         Enter_arr_search.delete(0,100)
         result_label.config(text="")
+        clear_search.place_forget()
         interval = 0
     elif interval == 0:
         r.set("1")
-        Enter_searchitem.get()==""
+        Enter_searchitem.get()==""    # ?
         SEARCH_linear.place(x=200, y=400)
         search.place(x=200, y=450)
         option.place_forget()
@@ -198,14 +202,16 @@ def click_search():
         Radiobutton1.place(x=200,y=100)
         Radiobutton2.place(x=500,y=100)
         search_label.place(x=0,y=0)
-        Menu.place(x=20, y=540)
+        Menu.place(x=20, y=640)
         result_label.place(x=500, y=450)
+        clear_search.place(x=722, y=500)
         interval = 1
 
 
 def click_sort():
     global interval
     if interval ==1:
+        Enter_arr_sort.delete(0,100)
         result_label_sort.place_forget()
         enter_arr.place_forget()
         SORT_selection.place_forget()
@@ -222,10 +228,14 @@ def click_sort():
         Descending.place_forget()
         sort_label.place_forget()
         Menu2.place_forget()
-        interval = 0
         result_label.place_forget()
         result_label_sort.config(text="")
+        SORT_bubble.place_forget()
+        SORT_insertion.place_forget()
+        interval = 0
+        clear_sort.place_forget()
     elif interval == 0:
+        Enter_arr_sort.get()==""
         v.set("1")
         enter_arr.place(x=100,y=200)
         SORT_selection.place(x=200, y=450)
@@ -240,8 +250,9 @@ def click_sort():
         Radiobutton5.place(x=600,y=100)
         Ascending.place(x=450,y=280)
         Descending.place(x=450,y=340)
-        Menu2.place(x=20, y=540)
+        Menu2.place(x=20, y=640)
         sort_label.place(x=0,y=0)
+        clear_sort.place(x=722, y=500)
         interval = 1
 
 
@@ -288,17 +299,22 @@ def binary_search():
 
    
     numbers = [int(num) for num in numbers]  # Convert the numbers from strings to integers
-
+    sorted_numbers = sorted(numbers)
+    print(sorted_numbers)
     search_item = int(Enter_searchitem.get())  # Get the search item as an integer
 
-
+    if search_item == numbers[Beg]:
+        result_label.config(text=f"Search item found at index: {Beg}")
+        return
+        
+ 
     while Beg <= End:
         Mid = (Beg + End) // 2  # Compute the midpoint
 
-        if numbers[Mid] == search_item:
+        if sorted_numbers[Mid] == search_item:
             result_label.config(text=f"Search item found at index: {Mid}")
             return
-        elif numbers[Mid] < search_item:
+        elif sorted_numbers[Mid] < search_item:
             Beg = Mid + 1  # Update the beginning index
         else:
             End = Mid - 1  # Update the ending index
@@ -324,11 +340,18 @@ def selection():
         length = len(numbers)
         i = 1
         for i in range(length):
-            min_index = i
-            for j in range(i + 1, length):
-                if numbers[j] < numbers[min_index]:
-                    min_index = j
-            numbers[i], numbers[min_index] = numbers[min_index], numbers[i]
+            if h.get()==1:
+                min_index = i
+                for j in range(i + 1, length):
+                    if numbers[j] < numbers[min_index]:
+                        min_index = j
+                numbers[i], numbers[min_index] = numbers[min_index], numbers[i]
+            elif h.get()==2:
+                min_index = i
+                for j in range(i + 1, length):
+                    if numbers[j] > numbers[min_index]:
+                        min_index = j
+                numbers[i], numbers[min_index] = numbers[min_index], numbers[i]
 
         result_label_sort.config(text=f"Sorted Array is: {numbers}")
         result_label_sort.place(x=400, y=410)
@@ -341,7 +364,7 @@ def selection():
 
 def bubble():
     input_text = Enter_arr_sort.get()
-    numbers = input_text.split()
+    numbers = input_text.split()  
 
     try:
         numbers = [int(num) for num in numbers]  # Convert the numbers from strings to integers
@@ -355,15 +378,24 @@ def bubble():
         for i in range(length):
             Swapped = False
             for j in range(length-1):
-                if numbers[j] > numbers[j+1]:
-                    Temp = numbers[j]
-                    numbers[j] = numbers[j+1]
-                    numbers[j+1] = Temp
-                    Swapped = True
-                    if Swapped == False: 
-                        Break
+                if h.get()==1:
+                    if numbers[j] > numbers[j+1]:
+                        Temp = numbers[j]
+                        numbers[j] = numbers[j+1]
+                        numbers[j+1] = Temp
+                        Swapped = True
+                        if Swapped == False: 
+                            Break
+                elif h.get()== 2 :
+                    if numbers[j] < numbers[j+1]:
+                        Temp = numbers[j]
+                        numbers[j] = numbers[j+1]
+                        numbers[j+1] = Temp
+                        Swapped = True
+                        if Swapped == False: 
+                            Break
 
-        print(numbers)
+        
         result_label_sort.config(text=f"Sorted Array is: {numbers}")
         result_label_sort.place(x=400, y=410)
     except ValueError:  # Error check for non numeric entries 
@@ -372,13 +404,66 @@ def bubble():
 
 
 
+
+def insertion():
+    input_text = Enter_arr_sort.get()
+    numbers = input_text.split()
+
+    try:
+        numbers = [int(num) for num in numbers]  # Convert the numbers from strings to integers
+        length = len(numbers)
+
+        if len(numbers) == 0: # Error checking for if users do not input a value
+            result_label_sort.config(text="No numbers entered")
+            result_label_sort.place(x=400, y=410) 
+            return
+        
+        i = 1
+
+        if h.get()==1:
+            for i in range(length):
+                print("hello")
+                value = numbers[i]
+                j = i - 1
+                while j>=0 and numbers[j]> value:
+                    numbers[j+1] = numbers[j]
+                    j = j - 1
+                numbers[j+1] = value
+        if h.get()==2:
+            for i in range(length):
+                print("hello")
+                value = numbers[i]
+                j = i - 1
+                while j>=0 and numbers[j]< value:
+                    numbers[j+1] = numbers[j]
+                    j = j - 1
+                numbers[j+1] = value
+        
+
+
+         
+        result_label_sort.config(text=f"Sorted Array is: {numbers}")
+        result_label_sort.place(x=400, y=410)
+
+
+    except ValueError:  # Error check for non numeric entries 
+        result_label_sort.config(text="Invalid input (non-numeric value entered)")
+        result_label_sort.place(x=400, y=410)
+        
+        
+
+
+# Clear functionalities
+
+def clear_search():
+    result_label.config(text="")
+    Enter_searchitem.delete(0,100)
+    Enter_arr_search.delete(0,100)
     
-            
 
-
-
-
-
+def clear_sort():
+    result_label_sort.config(text="")
+    Enter_arr_sort.delete(0,100)
 
 
 
@@ -426,7 +511,7 @@ SORT_selection.place_forget()
 SORT_bubble =  Button(root, text= "Sort with Bubble ", fg='black', bg='blanched almond', font = ('Aerial',15), command = bubble)
 SORT_bubble.place_forget()
 
-SORT_insertion =  Button(root, text= "Sort with Insertion ", fg='black', bg='blanched almond', font = ('Aerial',15), command = selection)
+SORT_insertion =  Button(root, text= "Sort with Insertion ", fg='black', bg='blanched almond', font = ('Aerial',15), command = insertion)
 SORT_insertion.place_forget()
 
 
@@ -435,11 +520,34 @@ result_label.place(x=500, y=510)
 result_label.place_forget()
 
 
-info = Button(root, text='info',fg='black', bg='blanched almond', font = ('Aerial',20)).place(x=725,y=525)
+info = Button(root, text='info',fg='black', bg='blanched almond', font = ('Aerial',20)).place(x=725,y=625)
+
+
+# Clear buttons
+
+clear_search = Button(root, text= "Clear ", fg='black', bg='light blue', font = 5, command = clear_search)
+clear_search.place(x=722, y=500)
+clear_search.place_forget()
+
+
+clear_sort = Button(root, text= "Clear", fg='black', bg='light blue', font = 5,  command = clear_sort )
+clear_sort.place(x=722, y=500)
+clear_sort.place_forget()
+
+
+
+# info buttons
+
+main_info = Label(root, text = "This is a search and sort application. \n Please select either search and select to use the feature", font = 5)
+main_info.place(x=150, y = 600)
+
+
+
+
 
 mainloop()
 
-
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
