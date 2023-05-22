@@ -4,10 +4,12 @@ global root
 root = Tk() # Creating an instance
 root.title("Search And Sort") # The name of the GUI
 root.geometry("800x700") # The size of the GUI
+#root.geometry(fixed,fixed)
 root.configure(bg="#21243B") # Background colour of the GUI
 global interval
 global variable 
 global txt
+global index
 interval = 0
 resultText =StringVar
 
@@ -128,7 +130,7 @@ sorted_arr =  Label(root, text= "Sorted Array is: ", fg='black', bg='blanched al
 
 sorted_arr.place_forget()
 
-search = Label(root, text= "Position of the search item is: ", fg='black', bg='blanched almond', font = ('Aerial',15))
+search = Label(root, text= "Positions of the search item is: ", fg='black', bg='blanched almond', font = ('Aerial',15))
 
 search.place_forget()
 
@@ -305,6 +307,9 @@ def linear_search():
 
 
         try:
+            result_label_sort.place_forget()
+
+            result_list = []
     
             numbers = [int(num) for num in numbers]  # Convert the numbers from strings to integers
         
@@ -312,21 +317,21 @@ def linear_search():
 
             
 
-
-
         
             index = -1  #if the search item is not found after iterating through the entire array, the value of index remains as -1.
             for i, num in enumerate(numbers):  #enumerate retrieves both the value and the index whilst iterating the list 
                 if num == search_item:
                     index = i
-                    break
-        
+                    result_list.append(i)  # Appending/ adding the indexes into the empty array
+                    print(result_list)
+
+            
             if index != -1:
-                result_label.config(text=f"Search item found at index: {index}")   #f" f strings are used so that different type of data can be used in a sentence
+                result_label.config(text=f"{result_list}")   #f" f strings are used so that different type of data can be used in a sentence
             else:
                 result_label.config(text="Search item not found")
         except ValueError:  
-            result_label.config(text="Invalid input")
+            result_label.config(text="Invalid input (non-numeric value entered)")
 
             
 
@@ -340,33 +345,58 @@ def binary_search():
     numbers = input_text.split()  # Split the input text using space as the delimiter
     
     Beg = 0
-    End = len(numbers)
+    End = len(numbers) - 1
     Mid = int((Beg + End)/2)
 
-   
-    numbers = [int(num) for num in numbers]  # Convert the numbers from strings to integers
-    sorted_numbers = sorted(numbers)
-    print(sorted_numbers)
-    search_item = int(Enter_searchitem.get())  # Get the search item as an integer
+    result_list = []
+    Original_list = []
 
-    if search_item == numbers[Beg]:
-        result_label.config(text=f"Search item found at index: {Beg}")
-        return
+    try:
+        numbers = [int(num) for num in numbers]  # Convert the numbers from strings to integers
+        sorted_numbers = sorted(numbers)
+        print(sorted_numbers)
+        search_item = int(Enter_searchitem.get())  # Get the search item as an integer
+
         
- 
-    while Beg <= End:
-        Mid = (Beg + End) // 2  # Compute the midpoint
 
-        if sorted_numbers[Mid] == search_item:
-            result_label.config(text=f"Search item found at index: {Mid}")
-            return
-        elif sorted_numbers[Mid] < search_item:
-            Beg = Mid + 1  # Update the beginning index
+        
+        while Beg <= End:
+            Mid = (Beg + End) // 2  # Compute the midpoint
+
+            if sorted_numbers[Mid] == search_item:
+                print(result_list)
+                #result_label.config(text=f"Search item found at index: {Mid}")
+                Beg = Mid + 1 
+        
+            elif sorted_numbers[Mid] < search_item:
+                Beg = Mid + 1  # Update the beginning index
+            elif sorted_numbers[Mid] > search_item:
+                End = Mid - 1  # Update the ending index
+            else:
+                result_label.config(text="Search item not found")
+                break
+                
+
+
+    
+         
+        for i, num in enumerate(numbers):  #enumerate retrieves both the value and the index whilst iterating the list 
+            if num == search_item:
+                 index = i
+                 result_list.append(i)  # Appending/ adding the indexes into the empty array
+                 print(result_list)
+
+        if len(result_list)>0:
+            result_label.config(text=f"{result_list}")
         else:
-            End = Mid - 1  # Update the ending index
+            result_label.config(text="Search item not found")
+             
+              
+          
+    except ValueError:  
+            result_label.config(text="Invalid input (non-numeric value entered)")
+            
 
-    result_label.config(text="Search item not found")  
-   
         
 # Sort functionalities
 
