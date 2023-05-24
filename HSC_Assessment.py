@@ -107,7 +107,7 @@ Enter_arr_search.place(x=400,y=200)
 
 Enter_arr_search.place_forget()
 
-Enter_searchitem = Entry(root, font =40, fg = "red")
+Enter_searchitem = Entry(root, font =40, fg = "red",)
 Enter_searchitem.place(x=400,y=300)
 
 Enter_searchitem.place_forget()
@@ -130,7 +130,7 @@ sorted_arr =  Label(root, text= "Sorted Array is: ", fg='black', bg='blanched al
 
 sorted_arr.place_forget()
 
-search = Label(root, text= "Positions of the search item is: ", fg='black', bg='blanched almond', font = ('Aerial',15))
+search = Label(root, text= "Positions of the search item is: ", fg='white', bg='#21243B', font = ('Aerial',15))
 
 search.place_forget()
 
@@ -196,6 +196,8 @@ def click_search():
         search_info.place_forget()
         MainInfo.place(x=725, y =625)
         SearchInfo.place_forget()
+        result_label_sort.place_forget()
+        binary_sort.place_forget()
         interval = 0
     elif interval == 0:
         #pressing Search
@@ -310,6 +312,7 @@ def linear_search():
             result_label_sort.place_forget()
 
             result_list = []
+            position_list = []
     
             numbers = [int(num) for num in numbers]  # Convert the numbers from strings to integers
         
@@ -325,9 +328,15 @@ def linear_search():
                     result_list.append(i)  # Appending/ adding the indexes into the empty array
                     print(result_list)
 
+            for i in result_list:
+                i = i + 1
+                position_list.append(i)
+                print(i)
+                print(position_list)
+
             
             if index != -1:
-                result_label.config(text=f"{result_list}")   #f" f strings are used so that different type of data can be used in a sentence
+                result_label.config(text=f"{position_list}")   #f" f strings are used so that different type of data can be used in a sentence
             else:
                 result_label.config(text="Search item not found")
         except ValueError:  
@@ -337,37 +346,46 @@ def linear_search():
 
 
 
+
     
         
 def binary_search():
-    
     input_text = Enter_arr_search.get()
     numbers = input_text.split()  # Split the input text using space as the delimiter
-    
-    Beg = 0
-    End = len(numbers) - 1
-    Mid = int((Beg + End)/2)
 
     result_list = []
-    Original_list = []
+    position_list= []
+
+    binary_sort.place(x=200,y=360)
 
     try:
         numbers = [int(num) for num in numbers]  # Convert the numbers from strings to integers
         sorted_numbers = sorted(numbers)
+        binary_sort.config(text=f"Sorted Array is: {sorted_numbers}") 
         print(sorted_numbers)
         search_item = int(Enter_searchitem.get())  # Get the search item as an integer
 
-        
+        Beg = 0
+        End = len(sorted_numbers) - 1
 
-        
         while Beg <= End:
             Mid = (Beg + End) // 2  # Compute the midpoint
 
             if sorted_numbers[Mid] == search_item:
-                print(result_list)
-                #result_label.config(text=f"Search item found at index: {Mid}")
-                Beg = Mid + 1 
-        
+                result_list.append(Mid)
+                left_index = Mid - 1
+                right_index = Mid + 1
+
+                while left_index >= Beg and sorted_numbers[left_index] == search_item:
+                    result_list.append(left_index)
+                    left_index -= 1
+
+                while right_index <= End and sorted_numbers[right_index] == search_item:
+                    result_list.append(right_index)
+                    right_index += 1
+
+                break
+
             elif sorted_numbers[Mid] < search_item:
                 Beg = Mid + 1  # Update the beginning index
             elif sorted_numbers[Mid] > search_item:
@@ -375,27 +393,28 @@ def binary_search():
             else:
                 result_label.config(text="Search item not found")
                 break
-                
 
+        position_list = []
+        for i in result_list:
+            i = i + 1
+            position_list.append(i)
+            print(position_list)
 
-    
-         
-        for i, num in enumerate(numbers):  #enumerate retrieves both the value and the index whilst iterating the list 
-            if num == search_item:
-                 index = i
-                 result_list.append(i)  # Appending/ adding the indexes into the empty array
-                 print(result_list)
-
-        if len(result_list)>0:
-            result_label.config(text=f"{result_list}")
+        if len(result_list) > 0:
+            result_label.config(text=f"{position_list}")
         else:
             result_label.config(text="Search item not found")
-             
-              
-          
-    except ValueError:  
-            result_label.config(text="Invalid input (non-numeric value entered)")
+
+    except ValueError:
+        result_label.config(text="Invalid input (non-numeric value entered)")
+
+ 
+
+
+
             
+binary_sort = Label(root, bg="#21243B", fg="white", font=10,)
+binary_sort.place(x=200,y=360)
 
         
 # Sort functionalities
@@ -410,7 +429,7 @@ def selection():
         
         if len(numbers) == 0: # Error checking for if users do not input a value
             result_label_sort.config(text="No numbers entered")
-            result_label_sort.place(x=400, y=410) 
+            result_label_sort.place(x=400, y=400) 
             return
         
         length = len(numbers)
@@ -430,10 +449,10 @@ def selection():
                 numbers[i], numbers[min_index] = numbers[min_index], numbers[i]
 
         result_label_sort.config(text=f"Sorted Array is: {numbers}")
-        result_label_sort.place(x=400, y=410)
+        result_label_sort.place(x=400, y=400)
     except ValueError:  # Error check for non numeric entries 
         result_label_sort.config(text="Invalid input (non-numeric value entered)")
-        result_label_sort.place(x=400, y=410)
+        result_label_sort.place(x=400, y=400)
      
 
 
@@ -448,7 +467,7 @@ def bubble():
         
         if len(numbers) == 0: # Error checking for if users do not input a value
             result_label_sort.config(text="No numbers entered")
-            result_label_sort.place(x=400, y=410) 
+            result_label_sort.place(x=400, y=400) 
             return
         
         for i in range(length):
@@ -473,10 +492,10 @@ def bubble():
 
         
         result_label_sort.config(text=f"Sorted Array is: {numbers}")
-        result_label_sort.place(x=400, y=410)
+        result_label_sort.place(x=400, y=400)
     except ValueError:  # Error check for non numeric entries 
         result_label_sort.config(text="Invalid input (non-numeric value entered)")
-        result_label_sort.place(x=400, y=410)
+        result_label_sort.place(x=400, y=400)
 
 
 
@@ -491,7 +510,7 @@ def insertion():
 
         if len(numbers) == 0: # Error checking for if users do not input a value
             result_label_sort.config(text="No numbers entered")
-            result_label_sort.place(x=400, y=410) 
+            result_label_sort.place(x=400, y=400) 
             return
         
         i = 1
@@ -519,12 +538,12 @@ def insertion():
 
          
         result_label_sort.config(text=f"Sorted Array is: {numbers}")
-        result_label_sort.place(x=400, y=410)
+        result_label_sort.place(x=400, y=400)
 
 
     except ValueError:  # Error check for non numeric entries 
         result_label_sort.config(text="Invalid input (non-numeric value entered)")
-        result_label_sort.place(x=400, y=410)
+        result_label_sort.place(x=400, y=400)
         
         
 
@@ -535,6 +554,7 @@ def clear_search():
     result_label.config(text="")
     Enter_searchitem.delete(0,100)
     Enter_arr_search.delete(0,100)
+    binary_sort.place_forget()
     
 
 def clear_sort():
