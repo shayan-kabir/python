@@ -4,7 +4,7 @@ global root
 root = Tk() # Creating an instance
 root.title("Search And Sort") # The name of the GUI
 root.geometry("800x700") # The size of the GUI
-#root.geometry(fixed,fixed)
+
 root.configure(bg="#21243B") # Background colour of the GUI
 global interval   # To changes pages (Search and Sort)
 global variable  # Radiobuttons for the info 
@@ -23,27 +23,21 @@ def change_background_color():
     if toggle == 0:
         root.config(bg="light blue")
         toggle = toggle + 1
-        print(toggle)
         return
     if toggle == 1:
         root.config(bg="#21243B")
         toggle = toggle + 1
-        print(toggle)
         return
     if toggle == 2:
         root.config(bg="White")
         toggle = toggle + 1
-        print(toggle)
         return
     if toggle == 3:
         root.config(bg="darkgray")
-        print(toggle)
         toggle = 0
         return
         
     
-        
-
 
 
 
@@ -92,7 +86,7 @@ def switch_to_insertion():
 
 
 #Radiobuttons (Search)
-r = IntVar()
+r = IntVar()    # Holds integer data (Helps retrieve)
 r.set("1")   # Setting the default
 Radiobutton1 = Radiobutton(root, text ="Linear", variable = r, value =int(1), font =20, command = switch_to_linear)
 Radiobutton1.place(x=100,y=100)
@@ -213,33 +207,32 @@ def click_search():
     variable = 1
     print(variable)
     if interval ==1:     #pressing menu
-        SEARCH_linear.place_forget()
-        SEARCH_binary.place_forget()
-        search.place_forget()
         Sort.place(x=130,y=350)
         enter_arr.place_forget()
         option.place(x=265,y=220)
-        Enter_arr_search.place_forget()
-        Enter_searchitem.place_forget()
-        enter_item.place_forget()
-        Radiobutton1.place_forget()
-        Radiobutton2.place_forget()
         Search.place(x=400,y=350,)
-        search_label.place_forget()
-        Menu.place_forget()
         result_label.place_forget()
         Enter_searchitem.delete(0,100)
         Enter_arr_search.delete(0,100)
         result_label.config(text="")
+        MainInfo.place(x=725, y =625)
         clear_search.place_forget()
         search_info.place_forget()
-        MainInfo.place(x=725, y =625)
+        SEARCH_linear.place_forget()
+        SEARCH_binary.place_forget()
         SearchInfo.place_forget()
         result_label_sort.place_forget()
         binary_sort.place_forget()
         Zoom_in_search.place_forget()
         Zoom_out_search.place_forget()
-        
+        search_label.place_forget()
+        Radiobutton1.place_forget()
+        Radiobutton2.place_forget()
+        search.place_forget()
+        Enter_arr_search.place_forget()
+        Enter_searchitem.place_forget()
+        enter_item.place_forget()
+        Menu.place_forget()
         interval = 0
     elif interval == 0:     #pressing Search
         
@@ -247,9 +240,6 @@ def click_search():
         Enter_searchitem.get()==""    # ?
         SEARCH_linear.place(x=200, y=400)
         search.place(x=200, y=450)
-        option.place_forget()
-        Sort.place_forget()
-        Search.place_forget()
         enter_arr.place(x=100,y=180)
         Enter_arr_search.place(x=500,y=195)
         Enter_searchitem.place(x=500,y=290)
@@ -266,6 +256,9 @@ def click_search():
         main_info.place_forget()
         Zoom_in_main.place_forget()
         Zoom_out_main.place_forget()
+        option.place_forget()
+        Sort.place_forget()
+        Search.place_forget()
         interval = 1
 
 
@@ -275,31 +268,30 @@ def click_sort():
     variable = 1
     print(variable)
     if interval ==1:           #pressing menu
-        
-        Enter_arr_sort.delete(0,100)
+        Sort.place(x=130,y=350)
+        option.place(x=265,y=220)
+        Search.place(x=400,y=350,)
+        result_label_sort.config(text="")
+        MainInfo.place(x=725, y =625)
         result_label_sort.place_forget()
         enter_arr.place_forget()
         SORT_selection.place_forget()
         sorted_arr.place_forget()
-        Sort.place(x=130,y=350)
-        Enter_arr_sort.place_forget()
-        option.place(x=265,y=220)
-        order_selection.place_forget()
         Radiobutton3.place_forget()
         Radiobutton4.place_forget()
         Radiobutton5.place_forget()
-        Search.place(x=400,y=350,)
         Ascending.place_forget()
         Descending.place_forget()
+        order_selection.place_forget()
         sort_label.place_forget()
-        Menu2.place_forget()
         result_label.place_forget()
-        result_label_sort.config(text="")
         SORT_bubble.place_forget()
         SORT_insertion.place_forget()
         clear_sort.place_forget()
         SortInfo.place_forget()
-        MainInfo.place(x=725, y =625)
+        Menu2.place_forget()
+        Enter_arr_sort.place_forget()
+        Enter_arr_sort.delete(0,100)
         sort_info.place_forget()
         search_info.place_forget()
         Zoom_in_sort.place_forget()
@@ -307,15 +299,11 @@ def click_sort():
         interval = 0
         
     elif interval == 0:             #pressing sort
-        
         Enter_arr_sort.get()==""
         v.set("1")
         enter_arr.place(x=100,y=200)
         SORT_selection.place(x=200, y=450)
         sorted_arr.place(x=200, y=400)
-        option.place_forget()
-        Sort.place_forget()
-        Search.place_forget()
         Enter_arr_sort.place(x=400,y=200)
         order_selection.place(x=100,y=300)
         Radiobutton3.place(x=100,y=100)
@@ -331,6 +319,9 @@ def click_sort():
         main_info.place_forget()
         Zoom_in_main.place_forget()
         Zoom_out_main.place_forget()
+        option.place_forget()
+        Sort.place_forget()
+        Search.place_forget()
         interval = 1
 
 
@@ -365,14 +356,14 @@ def linear_search():
             
 
         
-            index = -1  #if the search item is not found after iterating through the entire array, the value of index remains as -1.
+            index = -1  # If the search item is not found after iterating through the entire array, the value of index remains as -1.
             for i, num in enumerate(numbers):  #enumerate retrieves both the value and the index whilst iterating the list 
                 if num == search_item:
                     index = i
                     result_list.append(i)  # Appending/ adding the indexes into the empty array
                     print(result_list)
 
-            for i in result_list:      # Incrementing all the index values by 1 so that it becomes the position
+            for i in result_list:      # Incrementing all the index values by 1 so that it becomes the position   (Does not run if array is empty )
                 i = i + 1
                 position_list.append(i)       
                 print(i)
@@ -396,7 +387,7 @@ def binary_search():
     numbers = input_text.split()  # Split the input text using space as the delimiter
 
     result_list = []
-    position_list= []
+    
 
     binary_sort.place(x=200,y=360)
 
@@ -411,7 +402,7 @@ def binary_search():
         End = len(sorted_numbers) - 1
 
         while Beg <= End:
-            Mid = (Beg + End) // 2  # Compute the midpoint
+            Mid = (Beg + End) // 2  # Compute the midpoint, Floor division
 
             if sorted_numbers[Mid] == search_item:
                 result_list.append(Mid)
@@ -420,11 +411,11 @@ def binary_search():
 
                 while left_index >= Beg and sorted_numbers[left_index] == search_item:
                     result_list.append(left_index)
-                    left_index -= 1
+                    left_index = left_index - 1       # Iterates to the left (decrementing)
 
                 while right_index <= End and sorted_numbers[right_index] == search_item:
                     result_list.append(right_index)
-                    right_index += 1
+                    right_index = right_index + 1     # Iterates to the right (incrementing)
 
                 break
 
@@ -437,7 +428,7 @@ def binary_search():
                 break
 
         position_list = []
-        for i in result_list:
+        for i in result_list:    # Increments the index value in order to output the position
             i = i + 1
             position_list.append(i)
             print(position_list)
@@ -451,8 +442,6 @@ def binary_search():
         result_label.config(text="Invalid input (non-numeric value \n entered)")
 
  
-
-
 
             
 binary_sort = Label(root, bg="#21243B", fg="white", font=10,)
@@ -469,7 +458,7 @@ def selection():
     try:
         numbers = [int(num) for num in numbers]  # Convert the numbers entered by users into integers
         
-        if len(numbers) == 0: # Error checking for if users do not input a value
+        if len(numbers) == 0:       # Error checking for if users do not input a value at all
             result_label_sort.config(text="No numbers entered")
             result_label_sort.place(x=400, y=400) 
             return
@@ -477,16 +466,16 @@ def selection():
         length = len(numbers)
         i = 1
         for i in range(length):
-            if h.get()==1:
+            if h.get()==1:    # If acsending radio button is selected
                 min_index = i        # Setting i as  the minimum index 
                 for j in range(i + 1, length):   #another variable to compare
                     if numbers[j] < numbers[min_index]:
-                        min_index = j
+                        min_index = j         
                 numbers[i], numbers[min_index] = numbers[min_index], numbers[i]
-            elif h.get()==2:
+            elif h.get()==2:    # If descending radio button is selected
                 min_index = i
                 for j in range(i + 1, length):
-                    if numbers[j] > numbers[min_index]:
+                    if numbers[j] > numbers[min_index]:   #Sign change
                         min_index = j
                 numbers[i], numbers[min_index] = numbers[min_index], numbers[i]
 
@@ -512,19 +501,19 @@ def bubble():
             result_label_sort.place(x=400, y=400) 
             return
         
-        for i in range(length):
+        for i in range(length):    # Iterates through the entire array, Swap is initialised to false 
             Swapped = False
             for j in range(length-1):
-                if h.get()==1:
+                if h.get()==1:   # If acsending radio button is selected
                     if numbers[j] > numbers[j+1]:
                         Temp = numbers[j]
-                        numbers[j] = numbers[j+1]
+                        numbers[j] = numbers[j+1]    # Swaps the element in the aeeay through using an auxiliary value 'emp'
                         numbers[j+1] = Temp
                         Swapped = True
                         if Swapped == False: 
                             Break
-                elif h.get()== 2 :
-                    if numbers[j] < numbers[j+1]:
+                elif h.get()== 2 :      # If descending radio button is selected
+                    if numbers[j] < numbers[j+1]:  #Sign change
                         Temp = numbers[j]
                         numbers[j] = numbers[j+1]
                         numbers[j+1] = Temp
@@ -557,21 +546,19 @@ def insertion():
         
         i = 1
 
-        if h.get()==1:
+        if h.get()==1:         # If acsending radio button is selected
             for i in range(length):
-                print("hello")
-                value = numbers[i]
-                j = i - 1
-                while j>=0 and numbers[j]> value:
+                value = numbers[i]   #Assign value 
+                j = i - 1      # Index j is before index i 
+                while j>=0 and numbers[j]> value:      # Compares the adjacent elements in the array
                     numbers[j+1] = numbers[j]
                     j = j - 1
                 numbers[j+1] = value
-        if h.get()==2:
+        if h.get()==2:          # If descending radio button is selected
             for i in range(length):
-                print("hello")
                 value = numbers[i]
                 j = i - 1
-                while j>=0 and numbers[j]< value:
+                while j>=0 and numbers[j]< value:     #Sign change
                     numbers[j+1] = numbers[j]
                     j = j - 1
                 numbers[j+1] = value
@@ -588,7 +575,7 @@ def insertion():
         result_label_sort.place(x=400, y=400)
         
         
-
+result_label_sort = Label(root, bg="#21243B", fg="white", font=10)    # Label to display outputs for the sort 
 
 # Clear functionalities
 
@@ -604,11 +591,17 @@ def clear_sort():
     Enter_arr_sort.delete(0,100)
 
 
+# Clear buttons
+
+clear_search = Button(root, text= "Clear ", fg='black', bg='light blue', font = 5, command = clear_search)
+clear_search.place(x=722, y=500)
+clear_search.place_forget()
 
 
+clear_sort = Button(root, text= "Clear", fg='black', bg='light blue', font = 5,  command = clear_sort )
+clear_sort.place(x=722, y=500)
+clear_sort.place_forget()
 
-
-result_label_sort = Label(root, bg="#21243B", fg="white", font=10)
 
 
 
@@ -622,7 +615,7 @@ Sort.place(x=130,y=350)
 Search = Button(root, text='Search', fg='black', bg='#e6e6e6', font=('Times', 20),command = click_search, width=15)
 Search.place(x=400,y=350)
 
-# Different Menu for disparate options
+# Different Menu for disparate options of Search or Sort 
 
 Menu = Button(root, text = "Menu", command = click_search, font =40 )
 Menu.place_forget()
@@ -654,7 +647,7 @@ SORT_insertion.place_forget()
 
 # Search result Label
 
-result_label = Label(root,bg="#21243B",fg = "white", font =10)
+result_label = Label(root,bg="#21243B",fg = "white", font =10)          # Label to display outputs for the search 
 result_label.place(x=500, y=510)
 result_label.place_forget()
 
@@ -662,28 +655,15 @@ result_label.place_forget()
 
 
 
-# Clear buttons
-
-clear_search = Button(root, text= "Clear ", fg='black', bg='light blue', font = 5, command = clear_search)
-clear_search.place(x=722, y=500)
-clear_search.place_forget()
-
-
-clear_sort = Button(root, text= "Clear", fg='black', bg='light blue', font = 5,  command = clear_sort )
-clear_sort.place(x=722, y=500)
-clear_sort.place_forget()
-
-
-
 # info labels and its corresponding buttons with functions
 
-variable = 1
+variable = 1  # allows the info button to toggle 
 def infoMain():
     global variable
     if variable == 1:
-        main_info.place(y = 550, relx = 0.5, anchor = CENTER)
-        Zoom_in_main.place(x=350, y=660,width= 30,height= 30)
-        Zoom_out_main.place(x=450, y=660, width= 30,height= 30)
+        main_info.place(y = 550, relx = 0.5, anchor = CENTER)      # Info
+        Zoom_in_main.place(x=350, y=660,width= 30,height= 30)       # Zoom in
+        Zoom_out_main.place(x=450, y=660, width= 30,height= 30) #Zoom out
         variable =0
     elif variable == 0:
         main_info.place_forget()
@@ -719,14 +699,16 @@ def infoSort():
         Zoom_out_sort.place_forget()
     
 
-main_info = Label(root, text = "This is a search and sort application. \n Please select either search and select to use the feature", font=("TkDefaultFont", 12))
+# Main menu 
 
-main_info.place_forget()
 
 MainInfo = Button(root, text='info',fg='black', bg='blanched almond', font = ('Aerial',20), command = infoMain)
 MainInfo.place(x=725,y=625)
 
+main_info = Label(root, text = "This is a search and sort application. \n Please select either search and select to use the feature", font=("TkDefaultFont", 12))
+main_info.place_forget()
 
+# Search
 
 SearchInfo = Button(root, text='Search info',fg='black', bg='blanched almond', font = ('Aerial',15), command = infoSearch)
 SearchInfo.place(x=650,y=625)
@@ -734,7 +716,7 @@ SearchInfo.place_forget()
 
 search_info = Label(root, text = "This is the Search feature. Please select either Linear search or Binary search. \n Once selected, make sure to insert integers (seperated by space) into the entries then press the orange button", font=("TkDefaultFont", 9))
 
-
+# Sort
 
 SortInfo = Button(root, text='Sort info',fg='black', bg='blanched almond', font = ('Aerial',20), command = infoSort)
 SortInfo.place(x=625,y=625)
@@ -783,13 +765,12 @@ Zoom_out_main.place_forget()
 def zoom_in_search():
     Zoom_out_search.place(x=450, y=660, width= 30,height= 30) 
     new_size = 0
-    current_size = search_info.cget("font").split()[1]
+    current_size = search_info.cget("font").split()[1]     # cget - 'Get configuration' - retrieve the current value of font ("TkDefaultFont", 9)
     new_size = int(current_size) + 1
-    print(new_size)
     if new_size > 10:
         Zoom_in_search.place_forget()
         Zoom_out_search.place(x=450, y=660, width= 30,height= 30) 
-    search_info.config(font=("TkDefaultFont", new_size))
+    search_info.config(font=("TkDefaultFont", new_size))   # The increase in size is implemented 
 
 
 def zoom_out_search():
@@ -798,7 +779,7 @@ def zoom_out_search():
     current_size = search_info.cget("font").split()[1]
     new_size = int(current_size) - 1
     print(new_size)
-    if new_size < 10:
+    if new_size < 10:     # Sign change 
         Zoom_out_search.place_forget()
         Zoom_in_search.place(x=350, y=660, width= 30,height= 30) 
     search_info.config(font=("TkDefaultFont", new_size))
@@ -836,9 +817,6 @@ def zoom_out_sort():
         Zoom_out_sort.place_forget()
         Zoom_in_sort.place(x=350, y=660, width= 30,height= 30) 
     sort_info.config(font=("TkDefaultFont", new_size))
-
-
-
 
 
 
