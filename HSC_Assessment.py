@@ -130,7 +130,7 @@ Descending.place(x=197,y=330)
 Descending.place_forget()
 
 
-#Entry Widgets
+#Entry Widgets (In both Search and Sort)
 Enter_arr_sort = Entry(root, font =50, fg="dark blue")
 Enter_arr_sort.place(x=400,y=200,)
 
@@ -146,7 +146,7 @@ Enter_searchitem.place(x=400,y=300)
 
 Enter_searchitem.place_forget()
 
-#Labels
+#Labels  (In search and sort)
 menu_label = Label(root, text='Menu', fg='black', bg='blanched almond', font = ('Aerial bold',40), width=26, height=1).place(x=0,y=0)
 
 option = Label(root, text='Please select one', fg='black', bg='blanched almond', font = ('Aerial',25))
@@ -186,7 +186,7 @@ enter_item.place_forget()
 
 #Sort options
 
-enter_arr2 = Label(root, text = "Enter Array",font =80)
+enter_arr2 = Label(root, text = "Enter Array",font =30)
 
 
 enter_arr2.place_forget()
@@ -199,7 +199,7 @@ order_selection.place_forget()
 
 
 
-#Define functions
+#Define functions - Transitions of pages
 
 def click_search():
     global interval
@@ -328,16 +328,15 @@ def click_sort():
 # Search functionalities 
 
 def linear_search():
-    if r.get()==1:
         input_text = Enter_arr_search.get()
         numbers = input_text.split()  # Split the input text using space as the delimiter
 
         input_text2 = Enter_searchitem.get()
-        numbers2 = input_text2.split()       #collecting the search item and converting it to string
+        
 
 
 
-        if len(numbers) == 0 or len(numbers2) == 0: # Error checking for if users do not input a value
+        if len(numbers) == 0 or len(input_text2) == 0: # Error checking for if users do not input a value
                 result_label_sort.config(text="No numbers entered")
                 result_label_sort.place(x=400, y=410) 
                 return
@@ -387,13 +386,20 @@ def binary_search():
     numbers = input_text.split()  # Split the input text using space as the delimiter
 
     result_list = []
-    
+
+    input_text2 = Enter_searchitem.get()
+
+    if len(numbers) == 0 or len(input_text2) == 0: # Error checking for if users do not input a value
+                result_label_sort.config(text="No numbers entered")
+                result_label_sort.place(x=400, y=410) 
+                return
+
 
     binary_sort.place(x=200,y=360)
 
     try:
         numbers = [int(num) for num in numbers]  # Convert the numbers from strings to integers
-        sorted_numbers = sorted(numbers)
+        sorted_numbers = sorted(numbers)    # Numbers are sorted in binary 
         binary_sort.config(text=f"Sorted Array is: {sorted_numbers}") 
         print(sorted_numbers)
         search_item = int(Enter_searchitem.get())  # Get the search item as an integer
@@ -471,7 +477,7 @@ def selection():
                 for j in range(i + 1, length):   #another variable to compare
                     if numbers[j] < numbers[min_index]:
                         min_index = j         
-                numbers[i], numbers[min_index] = numbers[min_index], numbers[i]
+                numbers[i], numbers[min_index] = numbers[min_index], numbers[i]   # Swaps i and min_index
             elif h.get()==2:    # If descending radio button is selected
                 min_index = i
                 for j in range(i + 1, length):
@@ -504,13 +510,13 @@ def bubble():
         for i in range(length):    # Iterates through the entire array, Swap is initialised to false 
             Swapped = False
             for j in range(length-1):
-                if h.get()==1:   # If acsending radio button is selected
+                if h.get()==1:   # If ascending radio button is selected
                     if numbers[j] > numbers[j+1]:
                         Temp = numbers[j]
-                        numbers[j] = numbers[j+1]    # Swaps the element in the aeeay through using an auxiliary value 'emp'
+                        numbers[j] = numbers[j+1]    # Swaps the element in the array through using an auxiliary value 'Temp'
                         numbers[j+1] = Temp
                         Swapped = True
-                        if Swapped == False: 
+                        if Swapped == False:  
                             Break
                 elif h.get()== 2 :      # If descending radio button is selected
                     if numbers[j] < numbers[j+1]:  #Sign change
@@ -550,9 +556,9 @@ def insertion():
             for i in range(length):
                 value = numbers[i]   #Assign value 
                 j = i - 1      # Index j is before index i 
-                while j>=0 and numbers[j]> value:      # Compares the adjacent elements in the array
+                while j>=0 and numbers[j]> value:      # Compares the adjacent elements in the array, as long as numbers[j] is greater, the values will swap 
                     numbers[j+1] = numbers[j]
-                    j = j - 1
+                    j = j - 1  # Keep decrementng to the left 
                 numbers[j+1] = value
         if h.get()==2:          # If descending radio button is selected
             for i in range(length):
@@ -581,6 +587,7 @@ result_label_sort = Label(root, bg="#21243B", fg="white", font=10)    # Label to
 
 def clear_search():
     result_label.config(text="")
+    result_label_sort.config(text="")
     Enter_searchitem.delete(0,100)
     Enter_arr_search.delete(0,100)
     binary_sort.place_forget()
@@ -731,7 +738,7 @@ sort_info = Label(root, text = "This is the Sort feature. Please select either S
 def zoom_in():
     Zoom_out_main.place(x=450, y=660, width= 30,height= 30) 
     new_size = 0
-    current_size = main_info.cget("font").split()[1]
+    current_size = main_info.cget("font").split()[1]  #recieves the size
     new_size = int(current_size) + 1
     print(new_size)
     if new_size > 15:
