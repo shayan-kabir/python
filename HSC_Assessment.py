@@ -4,6 +4,7 @@ global root
 root = Tk() # Creating an instance
 root.title("Search And Sort") # The name of the GUI
 root.geometry("800x700") # The size of the GUI
+root.resizable(False, False)
 
 root.configure(bg="#21243B") # Background colour of the GUI
 global interval   # To changes pages (Search and Sort)
@@ -16,7 +17,7 @@ global toggle
 toggle = 0   # Background color
 
 
-# Change the background color of the root window
+
 
 def change_background_color():
     global toggle
@@ -25,7 +26,7 @@ def change_background_color():
         toggle = toggle + 1
         return
     if toggle == 1:
-        root.config(bg="#21243B")
+        root.config(bg="darkgray")
         toggle = toggle + 1
         return
     if toggle == 2:
@@ -33,11 +34,11 @@ def change_background_color():
         toggle = toggle + 1
         return
     if toggle == 3:
-        root.config(bg="darkgray")
+        root.config(bg="#21243B")
         toggle = 0
         return
         
-    
+
 
 
 
@@ -470,7 +471,7 @@ def selection():
             return
         
         length = len(numbers)
-        i = 1
+        i = 0
         for i in range(length):
             if h.get()==1:    # If acsending radio button is selected
                 min_index = i        # Setting i as  the minimum index 
@@ -712,7 +713,7 @@ def infoSort():
 MainInfo = Button(root, text='info',fg='black', bg='blanched almond', font = ('Aerial',20), command = infoMain)
 MainInfo.place(x=725,y=625)
 
-main_info = Label(root, text = "This is a search and sort application. \n Please select either search and select to use the feature", font=("TkDefaultFont", 12))
+main_info = Label(root, text = "This is a search and sort application. \n Please select either search and select to use the features", font=("TkDefaultFont", 12))
 main_info.place_forget()
 
 # Search
